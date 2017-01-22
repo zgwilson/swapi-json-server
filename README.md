@@ -2,7 +2,7 @@
 All credit to http://swapi.co and https://github.com/typicode/json-server
 
 ##Now
-[![Deploy to now](https://deploy.now.sh/static/button.svg)](https://deploy.now.sh/?repo=https://github.com/zpnk/hello-world)
+[![Deploy to now](https://deploy.now.sh/static/button.svg)](https://deploy.now.sh/?repo=https://github.com/johnlindquist/swapi-json-server)
 
 ## Setup
 - Clone or fork this repository

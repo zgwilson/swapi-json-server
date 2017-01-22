@@ -1,6 +1,9 @@
 # Star Wars API w/ JSON-Server
 All credit to http://swapi.co and https://github.com/typicode/json-server
 
+##Now
+[![Deploy to now](https://deploy.now.sh/static/button.svg)](https://deploy.now.sh/?repo=https://github.com/zpnk/hello-world)
+
 ## Setup
 - Clone or fork this repository
 - Make sure you have [node.js](https://nodejs.org/) installed

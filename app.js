@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const jsonServer = require('json-server');
 
 const films = require('./films.json');

@@ -1,11 +1,11 @@
 {
   "name": "swapi-json-server",
-  "bin": "./app.js",
+  "bin": "./bin/app.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/johnlindquist/swapi-json-server.git"
   },
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -1,5 +1,6 @@
 {
   "name": "swapi-json-server",
+  "bin": "./app.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/johnlindquist/swapi-json-server.git"

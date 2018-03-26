@@ -172,8 +172,6 @@ server.use(
 server.use((req, res, next) => {
   const { delay } = req.query
 
-  console.log(delay)
-
   if (delay) {
     setTimeout(() => {
       next()

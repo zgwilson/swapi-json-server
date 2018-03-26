@@ -169,6 +169,20 @@ server.use(
   })
 )
 
+server.use((req, res, next) => {
+  const { delay } = req.query
+
+  console.log(delay)
+
+  if (delay) {
+    setTimeout(() => {
+      next()
+    }, Number(delay))
+  } else {
+    next()
+  }
+})
+
 server.use(jsonServer.defaults())
 
 const router = jsonServer.router(relationDb)

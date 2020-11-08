@@ -127,7 +127,7 @@
 			"model": "Twin Ion Engine/Ln Starfighter",
 			"cost_in_credits": "unknown",
 			"manufacturer": "Sienar Fleet Systems",
-			"image": "tie/ln_starfighter.jpg"
+			"image": "tie_ln_starfighter.jpg"
 		},
 		"model": "resources.transport",
 		"pk": 8
@@ -469,7 +469,7 @@
 			"model": "Twin Ion Engine Interceptor",
 			"cost_in_credits": "unknown",
 			"manufacturer": "Sienar Fleet Systems",
-			"image": "tie/in_interceptor.jpg"
+			"image": "tie_in_interceptor.jpg"
 		},
 		"model": "resources.transport",
 		"pk": 26

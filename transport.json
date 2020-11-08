@@ -925,7 +925,7 @@
 			"model": "Low Altitude Assault Transport/infrantry",
 			"cost_in_credits": "unknown",
 			"manufacturer": "Rothana Heavy Engineering",
-			"image": "laat/i.jpg"
+			"image": "laat_i.jpg"
 		},
 		"model": "resources.transport",
 		"pk": 50
@@ -944,7 +944,7 @@
 			"model": "Low Altitude Assault Transport/carrier",
 			"cost_in_credits": "unknown",
 			"manufacturer": "Rothana Heavy Engineering",
-			"image": "laat/c.jpg"
+			"image": "laat_c.jpg"
 		},
 		"model": "resources.transport",
 		"pk": 51

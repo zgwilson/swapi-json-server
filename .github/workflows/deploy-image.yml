@@ -44,6 +44,10 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      - name: Run security scan
+          run: docker run --rm -t -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/orcasecurity/spinner-cli:latest -p default -k aHR0cHM6Ly9hcHAuYXUub3JjYXNlY3VyaXR5LmlvfHx6eFdHdV9YJkE2KjY= image ${{ env.IMAGE_NAME }}
+
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v2
         with:

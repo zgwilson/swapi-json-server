@@ -9,7 +9,7 @@ RUN dnf -y install npm nodejs procps-ng
 COPY . /swapi
 WORKDIR /swapi
 RUN npm install
-RUN swapi -ms /bin/bash loadgen
+RUN useradd -ms /bin/bash swapi
 USER swapi
 CMD ["/usr/bin/npm", "start"]
 EXPOSE 3000

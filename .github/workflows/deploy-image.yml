@@ -46,7 +46,7 @@ jobs:
 
       - name: Run security scan
         run: |
-          docker build --tag fooble .
+          docker build --tag ${{ env.IMAGE_NAME }} .
           docker images
 
 #      - name: Build and push Docker image

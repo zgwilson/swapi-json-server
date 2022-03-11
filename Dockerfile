@@ -6,6 +6,8 @@ LABEL description="SWAPI json server Container"
 RUN dnf -y install npm nodejs procps-ng
 #RUN git clone  https://github.com/codecowboydotio/swapi-json-server
 #WORKDIR /swapi-json-server
-RUN /usr/bin/npm install
+COPY . /swapi
+WORKDIR /swapi
+RUN npm install
 CMD ["/usr/bin/npm", "start"]
 EXPOSE 3000

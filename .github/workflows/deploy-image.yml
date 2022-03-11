@@ -24,13 +24,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
   
-#      - name: Configure nodejs
-#        uses: actions/setup-node@v1
-#        with:
-#          node-version: 12
-#      - run: |
-#          npm install
-
       - name: Log in to the Container registry
         uses: docker/login-action@v1
         with:

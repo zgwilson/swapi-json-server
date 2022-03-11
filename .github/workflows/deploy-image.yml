@@ -53,6 +53,8 @@ jobs:
         run: |
           docker build --tag ${{ github.event.repository.name }} .
           docker images
+          docker run --rm -t -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/orcasecurity/spinner-cli:latest -p default -k ${{ secrets.ORCA_API_KEY }} image ${{ github.event.repository.name }}
+          
 
 #      - name: Build and push Docker image
 #        uses: docker/build-push-action@v2

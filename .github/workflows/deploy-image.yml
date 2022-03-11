@@ -46,8 +46,8 @@ jobs:
 
       - name: Run security scan
         run: |
-          echo ${{ env.GITHUB_REPOSITORY }} | awk -F '/' '{print $2}'
-          echo ${{ env.GITHUB_REPOSITORY }} 
+          echo ${{ github.GITHUB_REPOSITORY }} | awk -F '/' '{print $2}'
+          echo ${{ github.GITHUB_REPOSITORY }} 
           docker build --tag ${{ env.IMAGE_NAME }} .
           docker images
 

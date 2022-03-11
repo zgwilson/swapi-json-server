@@ -11,5 +11,7 @@ WORKDIR /swapi
 RUN npm install
 RUN useradd -ms /bin/bash swapi
 USER swapi
+HEALTHCHECK --interval=5m --timeout=3s \
+ CMD curl http://localhost:3000/people/1 -k || exit 1
 CMD ["/usr/bin/npm", "start"]
 EXPOSE 3000

@@ -51,8 +51,7 @@ jobs:
 
       - name: Run security scan
         run: |
-          echo ${{ github.event.repository.name }}
-          docker build --tag ${{ env.IMAGE_NAME }} .
+          docker build --tag ${{ github.event.repository.name }} .
           docker images
 
 #      - name: Build and push Docker image

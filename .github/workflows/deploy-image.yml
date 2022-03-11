@@ -44,6 +44,11 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      - name: Print event data
+        env:
+          EVENT: ${{ toJSON( github.event ) }}
+        run: echo "$EVENT"
+
       - name: Run security scan
         run: |
           echo ::set-env repo_name=REPOSITORY_NAME::$(echo $GITHUB_REPOSITORY | awk -F / '{print $2}' | sed -s "s/:refs//")

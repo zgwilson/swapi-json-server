@@ -4,8 +4,6 @@ MAINTAINER "@svk"
 
 LABEL description="SWAPI json server Container"
 RUN dnf -y install npm nodejs procps-ng
-#RUN git clone  https://github.com/codecowboydotio/swapi-json-server
-#WORKDIR /swapi-json-server
 COPY . /swapi
 WORKDIR /swapi
 RUN npm install

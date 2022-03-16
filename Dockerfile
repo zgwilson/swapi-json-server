@@ -14,3 +14,4 @@ HEALTHCHECK CMD curl http://localhost:3000/people/1 || exit 1
 CMD ["/usr/bin/npm", "start"]
 EXPOSE 3000
 
+

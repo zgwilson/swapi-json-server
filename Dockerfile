@@ -4,10 +4,10 @@ FROM docker.io/library/fedora
 MAINTAINER "@svk"
 
 LABEL description="SWAPI json server Container"
-#RUN dnf -y install npm nodejs procps-ng
-ARG DEBIAN_FRONTEND=noninteractive
-RUN apt update
-RUN apt install -y npm nodejs
+RUN dnf -y install npm nodejs procps-ng
+##ARG DEBIAN_FRONTEND=noninteractive
+##RUN apt update
+##RUN apt install -y npm nodejs
 COPY . /swapi
 WORKDIR /swapi
 RUN npm install

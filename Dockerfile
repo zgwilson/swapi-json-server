@@ -13,7 +13,7 @@ WORKDIR /swapi
 RUN npm install
 RUN useradd -ms /bin/bash swapi
 ##RUN rm /usr/sbin/pam_timestamp_check /usr/bin/chage /usr/bin/sudo /usr/bin/newgrp /usr/sbin/unix_chkpwd /usr/bin/gpasswd
-RUN chmod u-s /usr/bin/passwd
+RUN chmod u-s /usr/bin/passwd /usr/bin/newgrp
 USER swapi
 HEALTHCHECK CMD /bin/curl http://localhost:3000/people/1 || exit 1
 CMD ["/usr/bin/npm", "start"]

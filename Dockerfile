@@ -1,4 +1,4 @@
-FROM docker.io/library/fedora:30
+FROM docker.io/library/fedora
 
 MAINTAINER "@svk"
 

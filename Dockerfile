@@ -4,8 +4,7 @@ MAINTAINER "@svk"
 
 LABEL description="SWAPI json server Container"
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt update
-RUN apt install -y npm nodejs
+RUN apt update && apt install -y npm nodejs
 COPY . /swapi
 WORKDIR /swapi
 RUN npm install
@@ -16,5 +15,3 @@ USER swapi
 HEALTHCHECK CMD /bin/curl http://localhost:3000/people/1 || exit 1
 CMD ["/usr/bin/npm", "start"]
 EXPOSE 3000
-
-

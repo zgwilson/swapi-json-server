@@ -39,7 +39,7 @@ jobs:
       run: echo "Your format checking goes here..."
 
   debug-print-event-data:
-    name: format-check
+    name: debug-print-event-data
     runs-on: ubuntu-latest
     steps:
 

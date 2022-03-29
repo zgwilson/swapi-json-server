@@ -14,7 +14,32 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
+
+  lint-check:
+    name: lint-check
+    # we had issues with ubuntu, currently using MacOS
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Lint
+        run: echo "Your linting goes here..."
+
+  unit-tests:
+    name: unit-tests
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "Your Unit tests go here..."
+
+  format-check:
+    name: format-check
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: format-check
+      run: echo "Your format checking goes here..."
+
   build-and-scan-image:
+    needs: [lint-check,unit-tests,format-check]
     runs-on: ubuntu-latest
     permissions:
       contents: read

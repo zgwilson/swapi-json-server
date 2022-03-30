@@ -15,8 +15,8 @@ env:
 
 jobs:
 
-  fake-lint-check:
-    name: fake-lint-check
+  lint-check:
+    name: lint-check
     # we had issues with ubuntu, currently using MacOS
     runs-on: ubuntu-latest
     steps:
@@ -24,17 +24,17 @@ jobs:
       - name: Lint
         run: echo "Your linting goes here..."
 
-  fake-format-check:
-    name: fake-format-check
+  format-check:
+    name: format-check
     runs-on: ubuntu-latest
     steps:
 
     - name: format-check
       run: echo "Your format checking goes here..."
 
-  fake-unit-tests:
+  unit-tests:
     needs: [lint-check,format-check]
-    name: fake-unit-tests
+    name: unit-tests
     runs-on: ubuntu-latest
     steps:
     - run: echo "Your Unit tests go here..."

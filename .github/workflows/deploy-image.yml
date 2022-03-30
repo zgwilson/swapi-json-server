@@ -61,6 +61,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
   
+
+
+      - name: Run security scan
+        run: |
+          docker build --tag ${{ github.event.repository.name }} .
+          docker images
+          docker run -u 0 --rm -t -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/orcasecurity/spinner-cli:latest -p default --api-token ${{ secrets.ORCA_API_KEY }} image ${{ github.event.repository.name }}
+      #  continue-on-error: true  
+
+
+  push-to-registry:
+    needs: [build-and-scan-image]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
       - name: Log in to the Container registry
         uses: docker/login-action@v1
         with:
@@ -73,27 +90,6 @@ jobs:
         uses: docker/metadata-action@v3
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
-
-      - name: Run security scan
-        run: |
-          docker build --tag ${{ github.event.repository.name }} .
-          docker images
-          docker run -u 0 --rm -t -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/orcasecurity/spinner-cli:latest -p default --api-token ${{ secrets.ORCA_API_KEY }} image ${{ github.event.repository.name }}
-      #  continue-on-error: true  
-
-
-
-
-
-
-  push-to-registry:
-    needs: [build-and-scan-image]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
       - name: Build and push Docker image
         if: ${{ success() }}
         uses: docker/build-push-action@v2

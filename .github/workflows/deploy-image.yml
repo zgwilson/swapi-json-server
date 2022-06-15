@@ -50,6 +50,26 @@ jobs:
         EVENT: ${{ toJSON( github.event ) }}
       run: echo "$EVENT"
 
+  idiot_check:
+    name: how many idiots do we have?
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        HEADERS[0]="accept: application/json"
+        HEADERS[1]="Content-Type: application/json"
+        API_URL="https://api.orcasecurity.io/api"
+        
+        TOKEN=$(curl -sSL -X POST --url "${API_URL}/user/session"  -H "${HEADERS[0]}" -H
+         "${HEADERS[1]}" -d "{ \"security_token\": \"${secrets.ORCA_REST_KEY}\" }" | jq -r '.jwt.
+        access')
+        
+        HEADERS[2]="Authorization: Bearer ${TOKEN}"
+        
+        set -x
+        sonarq="K8sDeployment with Namespace.Name = \"default\""
+        sonarq=${sonarq// /%20}
+        curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq
+
   build-and-scan-image:
     needs: [unit-tests]
     runs-on: ubuntu-latest

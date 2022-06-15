@@ -52,7 +52,7 @@ jobs:
 
   idiot_check:
     name: how many idiots do we have?
-    needs: [format-check]
+    needs: [unit-tests]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

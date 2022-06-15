@@ -68,6 +68,7 @@ jobs:
           sonarq=${sonarq// /%20}
           idiot_count=$(curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '.total_items')
           echo "TOLERANCE=$(cat tolerance)" >> $GITHUB_ENV
+          ls -la
           if [ "${idiot_count}" -gt  "${{ env.TOLERANCE }}" ]
           then
             echo "Too many deployments in default namespace"

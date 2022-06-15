@@ -66,7 +66,11 @@ jobs:
         
         sonarq="K8sDeployment with Namespace.Name = \"default\""
         sonarq=${sonarq// /%20}
-        curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '.total_items'
+        idiot_count=curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '.total_items'
+        echo ::set-output name=idiot_count::"$idiot_count"
+    name: what now
+    with: 
+      count: ${{ steps.vars.outputs.idiot_count }}
 
   #build-and-scan-image:
   #  needs: [unit-tests]

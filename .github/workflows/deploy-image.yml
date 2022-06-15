@@ -59,8 +59,7 @@ jobs:
         HEADERS[1]="Content-Type: application/json"
         API_URL="https://api.orcasecurity.io/api"
         
-        TOKEN=$(curl -sSL -X POST --url "${API_URL}/user/session"  -H "${HEADERS[0]}" -H
-         "${HEADERS[1]}" -d "{ \"security_token\": \"${{ secrets.ORCA_REST_KEY }}\" }" | jq -r '.jwt.
+        TOKEN=$(curl -sSL -X POST --url "${API_URL}/user/session"  -H "${HEADERS[0]}" -H "${HEADERS[1]}" -d "{ \"security_token\": \"${{ secrets.ORCA_REST_KEY }}\" }" | jq -r '.jwt.
         access')
         
         HEADERS[2]="Authorization: Bearer ${TOKEN}"

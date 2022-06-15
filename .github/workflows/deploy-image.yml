@@ -54,24 +54,27 @@ jobs:
     name: how many idiots do we have?
     runs-on: ubuntu-latest
     steps:
-    - run: |
-        set -x
-        HEADERS[0]="accept: application/json"
-        HEADERS[1]="Content-Type: application/json"
-        API_URL="https://api.orcasecurity.io/api"
-        
-        TOKEN=$(curl -sSL -X POST --url "${API_URL}/user/session"  -H "${HEADERS[0]}" -H "${HEADERS[1]}" -d "{ \"security_token\": \"${{ secrets.ORCA_REST_KEY }}\" }" | jq -r '.jwt.access')
-        
-        HEADERS[2]="Authorization: Bearer ${TOKEN}"
-        
-        sonarq="K8sDeployment with Namespace.Name = \"default\""
-        sonarq=${sonarq// /%20}
-        idiot_count=curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '.total_items'
-        echo ::set-output name=idiot_count::"$idiot_count"
-    name: what now
-    with: 
-      count: ${{ steps.vars.outputs.idiot_count }}
+      - run: |
+          set -x
+          HEADERS[0]="accept: application/json"
+          HEADERS[1]="Content-Type: application/json"
+          API_URL="https://api.orcasecurity.io/api"
+          
+          TOKEN=$(curl -sSL -X POST --url "${API_URL}/user/session"  -H "${HEADERS[0]}" -H "${HEADERS[1]}" -d "{ \"security_token\": \"${{ secrets.ORCA_REST_KEY }}\" }" | jq -r '.jwt.access')
+          
+          HEADERS[2]="Authorization: Bearer ${TOKEN}"
+          
+          sonarq="K8sDeployment with Namespace.Name = \"default\""
+          sonarq=${sonarq// /%20}
+          idiot_count=curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '.total_items'
+          if [ "${#idiot_count}" -gt 10 ]
+          then
+            echo "Too many deployments in default namespace"
+            exit 15
+          fi
+              
 
+  
   #build-and-scan-image:
   #  needs: [unit-tests]
   #  runs-on: ubuntu-latest

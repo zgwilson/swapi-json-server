@@ -54,7 +54,10 @@ jobs:
     name: how many idiots do we have?
     runs-on: ubuntu-latest
     steps:
-      - run: |
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name:
+        run: |
           set -x
           HEADERS[0]="accept: application/json"
           HEADERS[1]="Content-Type: application/json"

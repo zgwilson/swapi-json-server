@@ -66,7 +66,7 @@ jobs:
           
           sonarq="K8sDeployment with Namespace.Name = \"default\""
           sonarq=${sonarq// /%20}
-          idiot_count=curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '.total_items'
+          idiot_count=$(curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '.total_items')
           if [ "${idiot_count}" -gt 10 ]
           then
             echo "Too many deployments in default namespace"

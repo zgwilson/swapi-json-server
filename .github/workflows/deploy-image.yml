@@ -81,8 +81,8 @@ jobs:
 
   
   build-and-scan-image:
-    needs: [idiot_check]
-    #needs: [unit-tests]
+    #needs: [idiot_check]
+    needs: [unit-tests]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -100,7 +100,7 @@ jobs:
       #  continue-on-error: true  
 
   push-to-registry:
-    needs: [build-and-scan-image]
+    needs: [idiot_check,build-and-scan-image]
     runs-on: ubuntu-latest
     permissions:
       contents: read

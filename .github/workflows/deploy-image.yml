@@ -53,7 +53,7 @@ jobs:
   idiot_check:
     name: how many idiots do we have?
     #needs: [unit-tests]
-    needs: [link-check,format-check]
+    needs: [lint-check,format-check]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository

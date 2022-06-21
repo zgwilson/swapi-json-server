@@ -51,7 +51,7 @@ jobs:
       run: echo "$EVENT"
 
   idiot_check:
-    name: how many idiots do we have?
+    name: pick cluster
     needs: [unit-tests]
     #needs: [lint-check,format-check]
     runs-on: ubuntu-latest

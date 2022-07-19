@@ -1,0 +1,132 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# TEST
+name: Create and publish a Docker image
+
+on:
+  push:
+    branches: ['dev']
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+
+  lint-check:
+    name: lint-check
+    # we had issues with ubuntu, currently using MacOS
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Lint
+        run: echo "Your linting goes here..."
+
+  format-check:
+    name: format-check
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: format-check
+      run: echo "Your format checking goes here..."
+
+  unit-tests:
+    needs: [lint-check,format-check]
+    name: unit-tests
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo "Your Unit tests go here..."
+
+  debug-print-event-data:
+    name: debug-print-event-data
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Print event data for debug purposes
+      env:
+        EVENT: ${{ toJSON( github.event ) }}
+      run: echo "$EVENT"
+
+  idiot_check:
+    name: pick cluster
+    needs: [unit-tests]
+    #needs: [lint-check,format-check]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name:
+        run: |
+          set -x
+          HEADERS[0]="accept: application/json"
+          HEADERS[1]="Content-Type: application/json"
+          API_URL="https://api.orcasecurity.io/api"
+          
+          TOKEN=$(curl -sSL -X POST --url "${API_URL}/user/session"  -H "${HEADERS[0]}" -H "${HEADERS[1]}" -d "{ \"security_token\": \"${{ secrets.ORCA_REST_KEY }}\" }" | jq -r '.jwt.access')
+          
+          HEADERS[2]="Authorization: Bearer ${TOKEN}"
+          
+          sonarq="K8sDeployment with Namespace.Name = \"default\""
+          sonarq=${sonarq// /%20}
+          idiot_count=$(curl -sSL -X GET --url "${API_URL}/sonar/query?query=${sonarq}&get_results_and_count=true" -H "${HEADERS[1]}" -H "${HEADERS[2]}" | jq -r '.total_items')
+          TOLERANCE=$(cat tolerance)
+          if [ "${idiot_count}" -gt  "${TOLERANCE}" ]
+          then
+            echo "Too many deployments in default namespace"
+            exit 15
+          fi
+              
+
+  
+  build-and-scan-image:
+    needs: [idiot_check]
+    #needs: [unit-tests]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+  
+      - name: Run security scan
+        run: |
+          docker build --tag ${{ github.event.repository.name }} .
+          docker images
+          docker run -u 0 --rm -t -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/orcasecurity/orca-cli:latest -p svk-2 --api-token ${{ secrets.ORCA_API_KEY }} image scan ${{ github.event.repository.name }}
+      #  continue-on-error: true  
+
+  push-to-registry:
+    needs: [idiot_check,build-and-scan-image]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      - name: Build and push Docker image
+        if: ${{ success() }}
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

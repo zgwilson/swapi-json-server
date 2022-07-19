@@ -65,7 +65,7 @@ jobs:
           HEADERS[1]="Content-Type: application/json"
           API_URL="https://api.orcasecurity.io/api"
           
-          TOKEN=$(curl -sSL -X POST --url "${API_URL}/user/session"  -H "${HEADERS[0]}" -H "${HEADERS[1]}" -d "{ \"security_token\": \"${{ secrets.ORCA_REST_KEY }}\" }" | jq -r '.jwt.access')
+          TOKEN=$(curl -sSL -X POST --url "${API_URL}/user/session"  -H "${HEADERS[0]}" -H "${HEADERS[1]}" -d "{ \"security_token\": \"${{ secrets.ORCA_ZGW_TENANT_REST_KEY }}\" }" | jq -r '.jwt.access')
           
           HEADERS[2]="Authorization: Bearer ${TOKEN}"
           
@@ -97,7 +97,8 @@ jobs:
         run: |
           docker build --tag ${{ github.event.repository.name }} .
           docker images
-          docker run -u 0 --rm -t -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/orcasecurity/orca-cli:latest -p svk-2 --api-token ${{ secrets.ORCA_API_KEY }} image scan ${{ github.event.repository.name }}
+          docker run -u 0 --rm -t -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/orcasecurity/orca-cli:latest -p default --api-token ${{ secrets.ORCA_ZGW_TENANT_API_KEY }} image scan ${{ github.event.repository.name }}
+          #docker run -u 0 --rm -t -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/orcasecurity/orca-cli:latest -p svk-2 --api-token ${{ secrets.ORCA_API_KEY }} image scan ${{ github.event.repository.name }}
       #  continue-on-error: true  
 
   push-to-registry:
